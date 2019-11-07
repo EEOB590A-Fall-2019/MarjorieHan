@@ -39,12 +39,12 @@ pollination <- pollination %>%
 #Some of the insects are because they haven't been completed
 #7) Unite island, site, transect into a single column with no spaces or punctuation between each part. Call this column uniqueID. We need to keep the original columns too. 
 
-pollination <- pollination %>%
+pollination2 <- pollination %>%
   unite(uniqueID, c(island, site, transect), sep="", remove=F)
 
 #8) Now, make this "wide" dataset into a "long" dataset, with one column for the insect orders, and one column for number of insects. 
-pollination_long <- pollination %>%
-  gather(key = "insectorder", value = "insectnum")
+pollination_long2 <- pollination %>%
+  gather(key = "insectorder", value = "insectnum", 7:19)
 #9) And just to test it out, make your "long" dataset into a "wide" one and see if anything is different. 
 pollinationwide <- pollination_long %>%
   spread(key = insectorder, value = insectnum)
@@ -53,4 +53,6 @@ pollinationwide <- pollination_long %>%
 #10) Now, join the "InsectData" with the "CollectionDates" tab on the excel worksheet. You'll need to read it in, and then play around with the various types of 'mutating joins' (i.e. inner_join, left_join, right_join, full_join), to see what each one does to the final dataframe. 
 dates <- Data_wrangling_day1_pollination2
 pollinationdate <- pollination %>%
+  inner_join(dates)
+pollinationlarge <- pollination_long %>%
   inner_join(dates)
